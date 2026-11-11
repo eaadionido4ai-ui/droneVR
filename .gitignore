@@ -1,0 +1,15 @@
+# Node
+node_modules/
+# What the export tool writes before Blender picks it up (rebuilt by Tools/build_assets.sh)
+Tools/world-export/out/
+# .NET build output
+bin/
+obj/
+# Blender backups
+*.blend1
+# Python
+__pycache__/
+*.pyc
+# OS
+.DS_Store
+Thumbs.db
