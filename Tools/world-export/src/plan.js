@@ -66,7 +66,12 @@ export const ROADS = [
 // The bridge to the sitio, on street 3: its deck is 3.4 m above the river's normal level.
 export const BRIDGE = { x: 20, z0: 97, z1: 143, w: 8, deck: 3.4, thick: 0.6, spanZ0: 112, spanZ1: 128 };
 
-// ---------- the home pad and the places that have a name ----------
+// ---------- the operations center, the home pad and the places that have a name ----------
+// The operations center is a room under the barangay hall, where the operators stand: its middle, its size and
+// its floor, which is 6 m below the river's normal level so that no flood ever shows in it.
+export const EOC = { x: -172, z: -134, floor: -6, w: 16, d: 10, h: 3.4 };
+// The map table in its middle shows the whole barangay, one metre for every 200.
+export const TABLE = { x: -172, z: -134.3, top: 0.86, w: 2.8, d: 2.2, scale: 200 };
 export const PAD = { x: -148, z: -134, size: 8 };          // where the drones take off and land, beside the hall
 export const STAGING = [                                    // where the rescue boats wait and bring people
   { id: 'west', x: -150, z: -16 },

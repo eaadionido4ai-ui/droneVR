@@ -27,7 +27,9 @@ samples.push([-40, 0], [-37.5, 40], [-43.2, -90], [20, 101.5], [20, 120], [20, 1
 
 let c = head('The riverside barangay: its buildings, trees and poles, and what each mission looks for.', 'Tools/world-export/gen-data.mjs');
 c += 'namespace DroneVR\n{\n    public static partial class TownPlan\n    {\n';
-c += `        public const double PadX = ${n(P.PAD.x)}, PadZ = ${n(P.PAD.z)}, PadSize = ${n(P.PAD.size)};\n\n`;
+c += `        public const double PadX = ${n(P.PAD.x)}, PadZ = ${n(P.PAD.z)}, PadSize = ${n(P.PAD.size)};\n`;
+c += `        /// <summary>The operations center, a room under the barangay hall: its middle and the height of its floor.</summary>\n        public const double EocX = ${n(P.EOC.x)}, EocZ = ${n(P.EOC.z)}, EocFloor = ${n(P.EOC.floor)};\n`;
+c += `        /// <summary>The map table shows the barangay at one metre for every MapScale: its middle, and the height of its top above the floor.</summary>\n        public const double TableX = ${n(P.TABLE.x)}, TableZ = ${n(P.TABLE.z)}, TableTop = ${n(P.TABLE.top)}, MapScale = ${n(P.TABLE.scale)};\n\n`;
 c += '        public static readonly Building[] Buildings =\n        {\n';
 for (const q of P.BUILDINGS) c += `            new Building(${s(q.id)}, ${s(q.kind)}, ${n(q.x)}, ${n(q.z)}, ${n(q.w)}, ${n(q.d)}, ${n(q.h)}, RoofKind.${roofKind[q.roof]}, ${n(q.roofH)}, ${n(q.base)}, ${s(q.set)}),\n`;
 for (const q of P.RUBBLE) c += `            new Building(${s(q.id)}, "rubble", ${n(q.x)}, ${n(q.z)}, ${n(q.w)}, ${n(q.d)}, ${n(q.h)}, RoofKind.Flat, 0, ${n(q.base)}, "quake"),\n`;
@@ -72,6 +74,14 @@ const f = (v) => { const t = n(v); return t.includes('.') ? t : t + '.0'; };
 const pt = (x, z) => `{${f(x)}, ${f(z)}}`;
 let g = `/**\n* Name: DRONE Town\n* The places of the riverside barangay, for the DRONE model: its buildings, its streets, the survivors of the\n* flood, the boats' ways, the hazards, the drop sites and the flight school's gates.\n* Written by Tools/world-export/gen-data.mjs from Tools/world-export/src/plan.js. Do not edit by hand: change\n* the plan and run Tools/build_assets.sh. Unity reads the same plan (Core/Generated/TownPlan.g.cs).\n* Places are in DRONE VR's coordinates (metres; x east, z south), written as points {x, z}.\n* Tags: SIMPLE, drone\n*/\nmodel DRONE_Town\n\nglobal {\n`;
 g += `\tpoint pad_at <- ${pt(P.PAD.x, P.PAD.z)};\n`;
+g += '\t// the missions and the weather of each: the mean wind (m/s at 60 m), how much it gusts, where it blows\n\t// from (degrees), how long the mission lasts (minutes), and the flood\'s level (m) at minutes of the mission\n';
+g += `\tlist<string> mission_names <- [${P.MISSIONS.map((m) => s(m.id)).join(', ')}];\n`;
+g += `\tlist<float> mission_wind <- [${P.MISSIONS.map((m) => f(m.wind)).join(', ')}];\n`;
+g += `\tlist<float> mission_gust <- [${P.MISSIONS.map((m) => f(m.gust)).join(', ')}];\n`;
+g += `\tlist<float> mission_from <- [${P.MISSIONS.map((m) => f(m.windFrom)).join(', ')}];\n`;
+g += `\tlist<float> mission_minutes <- [${P.MISSIONS.map((m) => f(m.minutes)).join(', ')}];\n`;
+g += `\tlist<list<float>> mission_flood_minutes <- [${P.MISSIONS.map((m) => '[' + m.flood.map((q) => f(q[0])).join(', ') + ']').join(', ')}];\n`;
+g += `\tlist<list<float>> mission_flood_levels <- [${P.MISSIONS.map((m) => '[' + m.flood.map((q) => f(q[1])).join(', ') + ']').join(', ')}];\n`;
 g += '\t// each building: x, z, width (along x), depth (along z), height of its top above the ground\n\tlist<list<float>> building_boxes <- [\n';
 g += P.BUILDINGS.map((q) => `\t\t[${f(q.x)}, ${f(q.z)}, ${f(q.w)}, ${f(q.d)}, ${f(q.h + q.roofH)}]`).join(',\n') + '\n\t];\n';
 g += '\t// each street: from x, z to x, z, and its width\n\tlist<list<float>> street_lines <- [\n';
@@ -88,7 +98,9 @@ g += `\t// how many minutes each group can safely wait, and whether it needs a l
 g += `\tlist<bool> survivor_ring <- [${P.SURVIVORS.map((q) => b(q.ring)).join(', ')}];\n`;
 g += `\tlist<string> site_names <- [${P.SITES.map((q) => s(q.id)).join(', ')}];\n`;
 g += `\tlist<point> site_at <- [${P.SITES.map((q) => pt(q.x, q.z)).join(', ')}];\n`;
-g += `\tlist<int> site_needs <- [${P.SITES.map((q) => q.needs.length).join(', ')}];\n`;
+g += `\t// what each site asked for\n\tlist<list<string>> site_needs <- [${P.SITES.map((q) => '[' + q.needs.map(s).join(', ') + ']').join(', ')}];\n`;
+g += `\tlist<float> site_radius <- [${P.SITES.map((q) => f(q.r)).join(', ')}];\n`;
+g += `\tlist<point> tower_at <- [${P.TOWERS.map((q) => pt(q.x, q.z)).join(', ')}];\n`;
 g += `\tlist<point> staging_at <- [${P.STAGING.map((q) => pt(q.x, q.z)).join(', ')}];\n`;
 g += '\t// boat_routes[staging][survivor]: the way between them through the flood\n\tlist<list<list<point>>> boat_routes <- [\n';
 g += routes.map((rs) => '\t\t[\n' + rs.map((r) => '\t\t\t[' + r.map((p) => pt(p[0], p[1])).join(', ') + ']').join(',\n') + '\n\t\t]').join(',\n') + '\n\t];\n}\n';

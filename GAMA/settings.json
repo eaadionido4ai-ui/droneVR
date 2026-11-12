@@ -1,0 +1,10 @@
+{
+    "type": "json_settings",
+    "name": "DRONE VR",
+    "splashscreen": "./includes/splashscreen.png",
+    "model_file_path": "./models/DRONE VR.gaml",
+    "experiment_name": "vr_xp",
+    "minimal_players": "1",
+    "maximal_players": "6",
+    "selected_monitoring": "gama_screen"
+}

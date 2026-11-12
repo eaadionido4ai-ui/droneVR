@@ -11,6 +11,15 @@ model DRONE_Town
 
 global {
 	point pad_at <- {-148.0, -134.0};
+	// the missions and the weather of each: the mean wind (m/s at 60 m), how much it gusts, where it blows
+	// from (degrees), how long the mission lasts (minutes), and the flood's level (m) at minutes of the mission
+	list<string> mission_names <- ["lipad", "bantay", "sagip", "hatid"];
+	list<float> mission_wind <- [1.5, 3.0, 5.0, 9.0];
+	list<float> mission_gust <- [0.2, 0.3, 0.4, 0.5];
+	list<float> mission_from <- [60.0, 120.0, 200.0, 250.0];
+	list<float> mission_minutes <- [6.0, 8.0, 10.0, 10.0];
+	list<list<float>> mission_flood_minutes <- [[0.0], [0.0], [0.0, 6.0, 10.0], [0.0, 8.0]];
+	list<list<float>> mission_flood_levels <- [[0.0], [0.0], [2.2, 2.8, 2.8], [1.5, 1.1]];
 	// each building: x, z, width (along x), depth (along z), height of its top above the ground
 	list<list<float>> building_boxes <- [
 		[-172.0, -134.0, 18.0, 12.0, 7.4],
@@ -190,7 +199,10 @@ global {
 	list<bool> survivor_ring <- [false, false, false, true, false, false, false, false];
 	list<string> site_names <- ["evac", "sitio", "health", "roof"];
 	list<point> site_at <- [{150.0, -122.0}, {40.0, 165.0}, {62.0, -32.0}, {-68.0, 90.0}];
-	list<int> site_needs <- [2, 2, 2, 1];
+	// what each site asked for
+	list<list<string>> site_needs <- [["food", "water"], ["water", "medicine"], ["firstaid", "radio"], ["food"]];
+	list<float> site_radius <- [6.0, 5.0, 4.0, 2.5];
+	list<point> tower_at <- [{-200.0, -62.0}, {205.0, -160.0}];
 	list<point> staging_at <- [{-150.0, -16.0}, {92.0, -20.0}];
 	// boat_routes[staging][survivor]: the way between them through the flood
 	list<list<list<point>>> boat_routes <- [

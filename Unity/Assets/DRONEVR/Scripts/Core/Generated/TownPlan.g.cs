@@ -8,6 +8,10 @@ namespace DroneVR
     public static partial class TownPlan
     {
         public const double PadX = -148, PadZ = -134, PadSize = 8;
+        /// <summary>The operations center, a room under the barangay hall: its middle and the height of its floor.</summary>
+        public const double EocX = -172, EocZ = -134, EocFloor = -6;
+        /// <summary>The map table shows the barangay at one metre for every MapScale: its middle, and the height of its top above the floor.</summary>
+        public const double TableX = -172, TableZ = -134.3, TableTop = 0.86, MapScale = 200;
 
         public static readonly Building[] Buildings =
         {
