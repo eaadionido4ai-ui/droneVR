@@ -119,9 +119,9 @@ namespace DroneVR
             { "btn.summary", new[] { "Operations summary", "Buod ng operasyon" } },
 
             // ---- flying ----
-            { "hud.controls", new[] { "Left stick: up, down, turn · Right stick: forward, back, sideways · Trigger: {0} · A: back to the room", "Kaliwang stick: taas, baba, ikot · Kanang stick: abante, atras, patagilid · Trigger: {0} · A: balik sa silid" } },
-            { "hud.controls.hybrid", new[] { "X: hand back to the autopilot · Y: come home", "X: ibalik sa autopilot · Y: pauwiin" } },
-            { "hud.controls.desktop", new[] { "W S: forward, back · A D: sideways · Q E: turn · R F: up, down · Click: {0} · T: thermal · Tab: back to the room", "W S: abante, atras · A D: patagilid · Q E: ikot · R F: taas, baba · Click: {0} · T: thermal · Tab: balik sa silid" } },
+            { "hud.controls", new[] { "Left stick: up, down, turn · Right stick: forward, back, sideways · Trigger: {0} · Grip: drop · A: goggles on or off", "Kaliwang stick: taas, baba, ikot · Kanang stick: abante, atras, patagilid · Trigger: {0} · Grip: ihulog · A: isuot o hubarin ang goggles" } },
+            { "hud.controls.hybrid", new[] { "X (H): hand back to the autopilot · Y: come home", "X (H): ibalik sa autopilot · Y: pauwiin" } },
+            { "hud.controls.desktop", new[] { "W S: forward, back · A D: sideways · Q E: turn · R F: up, down · Click: {0} · G: drop · T: thermal · Tab: goggles on or off · Shift: gently", "W S: abante, atras · A D: patagilid · Q E: ikot · R F: taas, baba · Click: {0} · G: ihulog · T: thermal · Tab: isuot o hubarin ang goggles · Shift: dahan-dahan" } },
             { "tool.none", new[] { "(nothing)", "(wala)" } },
             { "tool.photo", new[] { "photograph", "litrato" } },
             { "tool.mark", new[] { "mark people · grip: drop the life ring · B: thermal camera", "markahan ang tao · grip: ihulog ang salbabida · B: thermal camera" } },
@@ -138,6 +138,8 @@ namespace DroneVR
             { "hud.next.gate", new[] { "Ring {0}: {1} m", "Singsing {0}: {1} m" } },
             { "hud.next.pad", new[] { "Land on the pad: {0} m", "Lumapag sa pad: {0} m" } },
             { "hud.next.site", new[] { "{0}: {1} m", "{0}: {1} m" } },
+            { "hud.next.report", new[] { "Nearest reported hazard: {0} m", "Pinakamalapit na iniulat na panganib: {0} m" } },
+            { "hud.next.groups", new[] { "Groups found: {0} of {1}", "Grupong natagpuan: {0} sa {1}" } },
             { "hud.drop.height", new[] { "Height above the mark: {0} m", "Taas mula sa marka: {0} m" } },
             { "hud.drop.high", new[] { "Too high to drop: {0} m", "Masyadong mataas para maghulog: {0} m" } },
             { "hud.ceiling", new[] { "Ceiling: 120 m (the 400 ft of the CAAP's rules).", "Hangganan ng taas: 120 m (ang 400 ft sa patakaran ng CAAP)." } },
@@ -250,7 +252,9 @@ namespace DroneVR
             { "place.table", new[] { "Map table", "Mesa ng mapa" } },
             { "place.dock", new[] { "Loading dock", "Loading dock" } },
             { "place.shelf", new[] { "Supplies", "Mga suplay" } },
-            { "class.drones", new[] { "Drones in the air: {0}", "Mga drone sa ere: {0}" } },
+            { "dock.crew", new[] { "The ground crew at the pad hangs the same on the drone.", "Ganoon din ang ikinakabit ng ground crew sa drone sa pad." } },
+            { "class.drones", new[] { "Classmates' drones in the air: {0}", "Mga drone ng kaklase sa ere: {0}" } },
+            { "class.ready", new[] { "Headsets ready: {0} of {1}", "Handang headset: {0} sa {1}" } },
 
             // ---- the mission report ----
             { "results.title", new[] { "{0}: mission report", "{0}: ulat ng misyon" } },

@@ -26,11 +26,12 @@ export function buildTown(T) {
   const rnd = seeded(5150);
   const G = P.ground;
   const g = {};
-  for (const name of ['terrain', 'roads', 'buildings', 'trees', 'props']) g[name] = K.group(name, root);
+  // 'far' is what lies beyond the barangay: the miniature on the map table leaves it out
+  for (const name of ['terrain', 'far', 'roads', 'buildings', 'trees', 'props']) g[name] = K.group(name, root);
   for (const name of Object.keys(P.SETS)) g[name] = K.group('SET:' + name, root);
 
   terrain(T, K, g.terrain);
-  far(K, g.terrain);
+  far(K, g.far);
   roads(T, K, g.roads, g.props);
   for (const b of P.BUILDINGS) building(K, b.set === 'normal' ? g.normal : g.buildings, b, rnd);
   named(K, g, textures);

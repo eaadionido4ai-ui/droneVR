@@ -12,8 +12,8 @@ EditorBuildSettings:
     path: Assets/Scenes/GAMA/Menu/IP Menu.unity
     guid: a6898870ea3a74b8eaf4ae0815720f93
   - enabled: 1
-    path: Assets/TANGHALAN/Scenes/Main Scene.unity
-    guid: 7d25d00b720afdd47d3b110893508ebe
+    path: Assets/DRONEVR/Scenes/Main Scene.unity
+    guid: 36511ad64a17b1804dfe0d08d9a700e1
   - enabled: 1
     path: Assets/Scenes/GAMA/Menu/End of Game Menu.unity
     guid: 931173f81a7164b55a0e2f094ac25ae8

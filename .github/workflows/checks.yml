@@ -1,0 +1,32 @@
+# Checks DRONE VR's rules and simulations on every push: the tests (the same ones Unity's Test Runner runs),
+# the numbers and texts shared by Unity, GAMA, the reference flight model and the plan, and that the data
+# written from the plan is up to date.
+name: checks
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: false
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Rules and simulation tests
+        run: dotnet test Tests
+      - name: The same numbers in Unity, GAMA, the reference model and the plan, and every text in both languages
+        run: python3 Tools/check_constants.py
+      - name: The reference flight model still gives the recorded results
+        run: python3 Tools/flight-reference/check_reference.py
+      - name: The data written from the plan is up to date
+        run: |
+          node Tools/world-export/gen-data.mjs
+          git diff --exit-code -- Unity/Assets/DRONEVR/Scripts/Core/Generated "GAMA/models/DRONE Town.gaml" Tools/flight-reference/ground_samples.json

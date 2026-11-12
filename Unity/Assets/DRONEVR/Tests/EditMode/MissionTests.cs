@@ -914,4 +914,56 @@ namespace DroneVR.Tests
             Assert.AreEqual("hilagang-kanluran", Strings.Direction(315, Lang.Fil));
         }
     }
+
+    public class MissionStartTests
+    {
+        [Test]
+        public void AloneTheMissionStartsAtOnce()
+        {
+            var s = new MissionStart();
+            s.Ask("sagip");
+            Assert.IsFalse(s.Go);
+            s.Update(DroneSpec.Dt, false);
+            Assert.IsTrue(s.Go); Assert.IsFalse(s.ByGama); Assert.AreEqual("sagip", s.Mission);
+        }
+
+        [Test]
+        public void WithAClassTheHeadsetWaitsForGamaAndFliesTheClasssMission()
+        {
+            var s = new MissionStart();
+            s.Ask("hatid");
+            s.GamaSays(1, 3, "hatid");
+            for (int i = 0; i < 20; i++) { s.Update(1, true); if (i % 2 == 0) s.GamaSays(2, 3, "bantay"); }
+            Assert.IsFalse(s.Go, "while GAMA keeps counting the class, the headset waits");
+            Assert.IsTrue(s.WaitingForClass);
+            s.GamaStarts("bantay", 2.5);
+            Assert.IsTrue(s.Go); Assert.IsTrue(s.ByGama);
+            Assert.AreEqual("bantay", s.Mission, "the class flies the mission its first ready headset chose");
+            Assert.AreEqual(2.5, s.Clock, 1e-9);
+        }
+
+        [Test]
+        public void IfGamaSaysNothingTheHeadsetGoesOnAlone()
+        {
+            var s = new MissionStart();
+            s.Ask("lipad");
+            for (int i = 0; i < 79; i++) s.Update(0.1, true);
+            Assert.IsFalse(s.Go);
+            for (int i = 0; i < 3; i++) s.Update(0.1, true);
+            Assert.IsTrue(s.Go); Assert.IsFalse(s.ByGama);
+        }
+
+        [Test]
+        public void TheTeacherCanStartAMissionBeforeAnyoneAsksAndALateHeadsetFliesAlone()
+        {
+            var s = new MissionStart();
+            s.GamaStarts("sagip", 0);
+            Assert.IsTrue(s.Go); Assert.IsTrue(s.ByGama); Assert.AreEqual("sagip", s.Mission);
+            s.Reset();
+            Assert.IsFalse(s.Go); Assert.IsNull(s.Mission);
+            s.Ask("hatid");
+            s.GamaBusy();
+            Assert.IsTrue(s.Go); Assert.IsFalse(s.ByGama, "the class is well into a mission: this one is its own");
+        }
+    }
 }
